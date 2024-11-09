@@ -23,7 +23,7 @@ const Home = () => {
             
           
       
-            <Button className="w-full sm:w-auto bg-green-500 hover:bg-green-700 text-white">Dashboard</Button>
+            <a href="/dashboard" className="w-full sm:w-auto bg-green-500 hover:bg-green-700 text-white flex justify-center items-center">Dashboard</a>
         </div>
       </div>
     </div>
