@@ -1,11 +1,14 @@
-// require('dotenv').config();
-// const PORT = process.env.PORT || 5001;
+import dotenv from 'dotenv'; // Import dotenv at the top
+dotenv.config(); // Load environment variables
 
 import app from './app.js';
-import dotenv from 'dotenv';
-dotenv.config();
-const PORT = process.env.PORT || 5000;
+import connectionToDB from './config/dbConnection.js';
 
-app.listen(PORT, () => {
+const PORT = process.env.PORT || 5000;
+// console.log("MONGO_URI:", process.env.MONGO_URI);
+
+
+app.listen(PORT, async () => {
+    await connectionToDB();
     console.log(`Server is listening at http://localhost:${PORT}`);
 });
