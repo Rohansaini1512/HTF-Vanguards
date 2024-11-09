@@ -4,9 +4,9 @@ const app = express();
 
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
-// const databaseconnect = require('./config/databaseConfig');
+import databaseconnect from './config/dbConnection.js';
 
-// databaseconnect
+databaseconnect
 
 app.use(express.json());
 app.use(cookieParser());
