@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
+import axios from 'axios';
 
 const Assistant: React.FC = () => {
   const [showDialog, setShowDialog] = useState(false);
@@ -16,20 +17,50 @@ const Assistant: React.FC = () => {
     const newMessage = { sender: 'user', message: userMessage };
     setChatHistory((prev) => [...prev, newMessage]);
 
-    // Simulate Gemini response (you can replace this with a real API call)
-    const geminiResponse = await getGeminiResponse(userMessage);
-    const geminiMessage = { sender: 'gemini', message: geminiResponse };
-    setChatHistory((prev) => [...prev, geminiMessage]);
+    // Get response from Gemini API
+    try {
+      console.log('Sending message to Gemini:', userMessage); // Log the message being sent
+      const geminiResponse = await getGeminiResponse(userMessage);
+      console.log('Received response from Gemini:', geminiResponse); // Log the response received
+      const geminiMessage = { sender: 'gemini', message: geminiResponse };
+      setChatHistory((prev) => [...prev, geminiMessage]);
+    } catch (error) {
+      console.error('Error fetching Gemini response:', error);
+      setChatHistory((prev) => [
+        ...prev,
+        { sender: 'gemini', message: 'Sorry, something went wrong. Please try again.' },
+      ]);
+    }
 
     // Clear the input field
     setUserMessage('');
   };
 
-  // Simulate Gemini API response (replace with actual API call)
+  // Function to call Gemini API (replace with actual endpoint and API key)
   const getGeminiResponse = async (message: string) => {
-    // For now, just simulate a response from Gemini
-    return `Gemini says: I received your message: "${message}". How can I assist you further?`;
-  };
+    try {
+      const apiKey = process.env.REACT_APP_GEMINI_API_KEY;
+      if (!apiKey) {
+        throw new Error('API key is not defined');
+      }
+  
+      const response = await axios.post(
+        'https://api.gemini.com/v1/ask', 
+        { query: message },
+        { headers: { 'Authorization': `Bearer ${apiKey}` } }
+      );
+  
+      console.log('Gemini response data:', response.data); // Log the full response
+      return response.data.answer || 'Sorry, I didn’t get that. Could you try again?';
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.error('Error in getGeminiResponse:', error.response?.data || error.message);
+      } else {
+        console.error('Error in getGeminiResponse:', error);
+      }
+      throw new Error('Failed to communicate with Gemini');
+    }
+  };  
 
   return (
     <div>

@@ -44,16 +44,16 @@ const Dashboard = () => {
 	});
 	const [editTaskId, setEditTaskId] = useState<number | null>(null);
 
-	if (!isAuthenticated) {
-		return (
-			<div className="flex flex-col items-center justify-center min-h-screen">
-				<p className="text-lg text-gray-700">Please log in to access your dashboard.</p>
-				<Button onClick={() => loginWithRedirect()} className="mt-4 bg-blue-500 text-white">
-					Log in
-				</Button>
-			</div>
-		);
-	}
+	// if (!isAuthenticated) {
+	// 	return (
+	// 		<div className="flex flex-col items-center justify-center min-h-screen">
+	// 			<p className="text-lg text-gray-700">Please log in to access your dashboard.</p>
+	// 			<Button onClick={() => loginWithRedirect()} className="mt-4 bg-blue-500 text-white">
+	// 				Log in
+	// 			</Button>
+	// 		</div>
+	// 	);
+	// }
 
 	const handleAddTask = () => {
 		if (newTask.name.trim()) {
