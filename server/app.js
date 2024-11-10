@@ -3,6 +3,7 @@ import morgan from 'morgan';
 import express from 'express';
 import taskRoutes from './routes/taskRoutes.js';
 import userRoutes from './routes/user.route.js';
+import geminiRoutes from './routes/geminiRoutes.js';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import databaseconnect from './config/dbConnection.js';
@@ -36,6 +37,7 @@ app.use('/ping', (req, res) => {
 // Route setup
 app.use('/api', taskRoutes); // Fix: added '/' to 'api'
 app.use('/api', userRoutes)
+app.use('/api/gemini', geminiRoutes);
 
 // Default route for unknown paths
 app.use('/', (req, res) => {
